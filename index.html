@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Chapter Performance Report (CPR) – Friends of Tribals Society</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy:   #1a2e4a;
+    --green:  #2d6a2d;
+    --orange: #c87000;
+    --maroon: #8b0032;
+    --gold:   #b8860b;
+    --blue-header: #1e3a5f;
+    --row-light: #fdf6e3;
+    --row-alt:   #fff;
+    --border: #ccc;
+    --th-text: #fff;
+    --label-bg: #f0f4fa;
+    --font: 'Segoe UI', Arial, sans-serif;
+    --input-border: #bbb;
+  }
+
+  body {
+    font-family: var(--font);
+    font-size: 13px;
+    background: #e8e8e8;
+    color: #111;
+    padding: 20px;
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    body { background: #fff; padding: 0; }
+    .no-print { display: none !important; }
+    .form-page { box-shadow: none; margin: 0; }
+    .add-btn, .remove-btn { display: none; }
+  }
+
+  /* ── PAGE WRAPPER ── */
+  .form-page {
+    background: #fff;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 24px 28px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.18);
+  }
+
+  /* ── HEADER ── */
+  .cpr-header {
+    display: flex;
+    align-items: center;
+    border: 2px solid var(--navy);
+    margin-bottom: 0;
+  }
+  .cpr-logo {
+    width: 80px;
+    min-height: 70px;
+    border-right: 2px solid var(--navy);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    text-align: center;
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1.3;
+  }
+  .logo-circle {
+    width: 44px; height: 44px;
+    border: 3px solid var(--navy);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    margin-bottom: 4px;
+  }
+  .cpr-title {
+    flex: 1;
+    text-align: center;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--navy);
+    padding: 14px;
+    letter-spacing: .5px;
+  }
+
+  /* ── META ROW ── */
+  .meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-left: 2px solid var(--navy);
+    border-right: 2px solid var(--navy);
+    border-bottom: 2px solid var(--navy);
+  }
+  .meta-cell {
+    display: flex;
+    align-items: center;
+    padding: 6px 10px;
+    border-bottom: 1px solid var(--navy);
+    gap: 8px;
+  }
+  .meta-cell:nth-child(odd) { border-right: 1px solid var(--navy); }
+  .meta-cell label {
+    font-weight: 700;
+    color: var(--navy);
+    white-space: nowrap;
+    font-size: 12px;
+    min-width: 110px;
+  }
+  .meta-cell input, .meta-cell select {
+    flex: 1;
+    border: none;
+    border-bottom: 1px solid var(--input-border);
+    background: var(--row-light);
+    padding: 3px 5px;
+    font-size: 12px;
+    outline: none;
+  }
+  .meta-cell select { cursor: pointer; }
+
+  /* ── SECTION HEADING ── */
+  .section-heading {
+    font-size: 13px;
+    font-weight: 800;
+    color: #fff;
+    padding: 7px 12px;
+    margin-top: 14px;
+    letter-spacing: .3px;
+  }
+  .sec-a { background: var(--navy); }
+  .sec-b { background: var(--green); }
+  .sec-c { background: var(--orange); }
+  .sec-d { background: var(--maroon); }
+  .sec-e { background: #6b4c00; }
+  .sec-f { background: var(--navy); }
+  .sec-g { background: var(--green); }
+  .sec-events { background: #333; }
+  .sec-ann1 { background: var(--blue-header); }
+  .sec-ann2 { background: var(--navy); }
+
+  .sub-heading {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--orange);
+    margin: 10px 0 4px;
+    padding-left: 4px;
+  }
+  .sub-heading-maroon { color: var(--maroon); }
+
+  /* ── TABLES ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2px;
+  }
+  th {
+    background: var(--navy);
+    color: var(--th-text);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 6px 7px;
+    text-align: center;
+    border: 1px solid #444;
+    vertical-align: middle;
+  }
+  th.green-th { background: var(--green); }
+  th.orange-th { background: var(--orange); }
+  th.maroon-th { background: var(--maroon); }
+  th.brown-th { background: #6b4c00; }
+  th.blue-th { background: var(--blue-header); }
+
+  td {
+    border: 1px solid var(--border);
+    padding: 4px 6px;
+    vertical-align: middle;
+    background: var(--row-light);
+    font-size: 12px;
+  }
+  tr:nth-child(even) td { background: var(--row-alt); }
+  td.label-cell {
+    font-weight: 600;
+    background: #eef2f8 !important;
+    white-space: nowrap;
+  }
+  td.total-cell { font-weight: 700; background: #dde4f0 !important; }
+
+  td input[type="text"],
+  td input[type="number"],
+  td input[type="date"],
+  td textarea,
+  td select {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid var(--input-border);
+    background: transparent;
+    padding: 2px 3px;
+    font-size: 12px;
+    font-family: var(--font);
+    outline: none;
+    resize: vertical;
+  }
+  td textarea { min-height: 38px; }
+
+  /* ── RADIO / SELECT within td ── */
+  td select { cursor: pointer; }
+
+  /* ── BUTTONS ── */
+  .add-btn {
+    display: inline-block;
+    margin: 8px 0 4px;
+    padding: 5px 14px;
+    background: var(--green);
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .remove-btn {
+    background: #c0392b;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 11px;
+    padding: 3px 8px;
+    white-space: nowrap;
+  }
+  .submit-btn {
+    display: block;
+    margin: 24px auto 8px;
+    padding: 12px 48px;
+    background: var(--navy);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: .5px;
+  }
+  .print-btn {
+    display: block;
+    margin: 6px auto 20px;
+    padding: 9px 36px;
+    background: #555;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    cursor: pointer;
+  }
+
+  /* ── PHOTO UPLOAD ── */
+  .photo-upload-area {
+    display: flex;
+    gap: 10px;
+    padding: 6px 0;
+    flex-wrap: wrap;
+  }
+  .photo-slot {
+    border: 1px dashed #aaa;
+    padding: 4px;
+    width: 140px;
+    font-size: 10px;
+    color: #555;
+    text-align: center;
+  }
+  .photo-slot input { width: 100%; font-size: 10px; }
+
+  /* ── MISC ── */
+  .section-note {
+    font-size: 11px;
+    color: #666;
+    padding: 4px 0;
+    font-style: italic;
+  }
+  .bank-balance-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0 4px;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .bank-balance-row input {
+    border: 1px solid var(--input-border);
+    padding: 4px 8px;
+    width: 200px;
+    font-size: 13px;
+  }
+  .monitoring-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    font-weight: 600;
+    font-size: 13px;
+    border-top: 1px solid var(--border);
+    margin-top: 6px;
+  }
+  .monitoring-row input {
+    border: 1px solid var(--input-border);
+    padding: 4px 8px;
+    width: 260px;
+    font-size: 12px;
+  }
+</style>
+</head>
+<body>
+
+<div class="form-page">
+
+  <!-- ════════════════════════════════════════ HEADER ════════════════════════════════════════ -->
+  <div class="cpr-header">
+    <div class="cpr-logo">
+      <div class="logo-circle">🌿</div>
+      Friends of Tribals Society
+    </div>
+    <div class="cpr-title">CHAPTER PERFORMANCE REPORT (CPR)</div>
+  </div>
+
+  <div class="meta-grid">
+    <div class="meta-cell">
+      <label>Chapter Name:</label>
+      <select id="chapterName" name="chapterName">
+        <option value="">-- Select Chapter --</option>
+        <optgroup label="North Zone">
+          <option>Agra</option>
+          <option>Gwalior</option>
+          <option>Jaipur</option>
+          <option>New Delhi</option>
+          <option>Ajmer Sub-Chapter (Jaipur)</option>
+          <option>Jodhpur</option>
+        </optgroup>
+        <optgroup label="West Zone">
+          <option>Ahmedabad</option>
+          <option>Bhopal</option>
+          <option>Indore</option>
+          <option>Jabalpur</option>
+          <option>Mumbai</option>
+          <option>Nagpur</option>
+          <option>Nasik</option>
+          <option>Pune</option>
+          <option>Raipur</option>
+          <option>Surat</option>
+          <option>Vadodara</option>
+          <option>Amravati</option>
+          <option>Durg Bhilai Sub-Chapter (Raipur)</option>
+          <option>Dhamtari Sub-Chapter (Raipur)</option>
+          <option>Jamnagar Sub-Chapter (Ahmedabad)</option>
+          <option>Satna Sub-Chapter (Jabalpur)</option>
+          <option>Chandrapur Sub-Chapter (Nagpur)</option>
+          <option>Gondia Sub-Chapter (Nagpur)</option>
+        </optgroup>
+        <optgroup label="South Zone">
+          <option>Bangalore</option>
+          <option>Bengaluru Mahila</option>
+          <option>Chennai</option>
+          <option>Coimbatore</option>
+          <option>Erode</option>
+          <option>Hyderabad</option>
+          <option>Kochi</option>
+          <option>Telangana</option>
+          <option>Rajahmundry Sub-Chapter (Telangana)</option>
+        </optgroup>
+        <optgroup label="East Zone">
+          <option>Bhubaneswar</option>
+          <option>Dhanbad</option>
+          <option>Jamshedpur</option>
+          <option>Kolkata</option>
+          <option>Patna</option>
+          <option>Ranchi</option>
+          <option>Rourkela</option>
+          <option>Siliguri</option>
+          <option>Cuttack</option>
+          <option>Sambalpur</option>
+          <option>Balasore Sub-Chapter (Bhubaneswar)</option>
+        </optgroup>
+        <optgroup label="North East Zone">
+          <option>Dibrugarh</option>
+          <option>Guwahati</option>
+          <option>Silchar</option>
+          <option>Tinsukia</option>
+        </optgroup>
+      </select>
+    </div>
+    <div class="meta-cell">
+      <label>For the Month of:</label>
+      <input type="month" name="reportMonth">
+    </div>
+    <div class="meta-cell">
+      <label>Name of CPP:</label>
+      <input type="text" name="cppName" placeholder="CPP Name">
+    </div>
+    <div class="meta-cell">
+      <label>Submission Date:</label>
+      <input type="date" name="submissionDate">
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════ A | MEMBERSHIP DATA ════════════════════════════════════════ -->
+  <div class="section-heading sec-a">A | MEMBERSHIP DATA</div>
+  <table>
+    <thead>
+      <tr>
+        <th rowspan="2" style="width:14%">Particulars</th>
+        <th rowspan="2" style="width:14%">Members as on 31st March 2026</th>
+        <th rowspan="2" style="width:14%">During the Month (New Members)</th>
+        <th rowspan="2" style="width:15%">Total Members (Till Month End 2026-27)</th>
+        <th colspan="2">Membership Amount Received (₹) (Till Month End)</th>
+        <th rowspan="2" style="width:16%">Remarks / Break-up</th>
+      </tr>
+      <tr>
+        <th style="width:10%">No. of Members</th>
+        <th style="width:10%">Amount Received</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="label-cell">Chapter Members</td>
+        <td><input type="number" name="a_cm_mar26" min="0"></td>
+        <td><input type="number" name="a_cm_month" min="0"></td>
+        <td><input type="number" name="a_cm_total" min="0"></td>
+        <td><input type="number" name="a_cm_no" min="0"></td>
+        <td><input type="number" name="a_cm_amt" min="0"></td>
+        <td><input type="text" name="a_cm_remarks"></td>
+      </tr>
+      <tr>
+        <td class="label-cell">Mahila Samiti</td>
+        <td><input type="number" name="a_ms_mar26" min="0"></td>
+        <td><input type="number" name="a_ms_month" min="0"></td>
+        <td><input type="number" name="a_ms_total" min="0"></td>
+        <td><input type="number" name="a_ms_no" min="0"></td>
+        <td><input type="number" name="a_ms_amt" min="0"></td>
+        <td><input type="text" name="a_ms_remarks"></td>
+      </tr>
+      <tr>
+        <td class="label-cell">Yuva Samiti</td>
+        <td><input type="number" name="a_ys_mar26" min="0"></td>
+        <td><input type="number" name="a_ys_month" min="0"></td>
+        <td><input type="number" name="a_ys_total" min="0"></td>
+        <td><input type="number" name="a_ys_no" min="0"></td>
+        <td><input type="number" name="a_ys_amt" min="0"></td>
+        <td><input type="text" name="a_ys_remarks"></td>
+      </tr>
+      <tr>
+        <td class="total-cell">TOTAL</td>
+        <td class="total-cell"><input type="number" name="a_tot_mar26" min="0"></td>
+        <td class="total-cell"><input type="number" name="a_tot_month" min="0"></td>
+        <td class="total-cell"><input type="number" name="a_tot_total" min="0"></td>
+        <td class="total-cell"><input type="number" name="a_tot_no" min="0"></td>
+        <td class="total-cell"><input type="number" name="a_tot_amt" min="0"></td>
+        <td class="total-cell"><input type="text" name="a_tot_remarks"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ════════════════════════════════════════ B | EXECUTIVE COMMITTEE MEETING ════════════════════════════════════════ -->
+  <div class="section-heading sec-b">B | EXECUTIVE COMMITTEE MEETING DETAILS</div>
+  <table id="b-table">
+    <thead>
+      <tr>
+        <th class="green-th" style="width:13%">Date of Meeting</th>
+        <th class="green-th" style="width:13%">Expected Members</th>
+        <th class="green-th" style="width:15%">Actual Members Attended</th>
+        <th class="green-th">Key Agenda Points Discussed (Important Points Only)</th>
+        <th class="green-th no-print" style="width:6%"></th>
+      </tr>
+    </thead>
+    <tbody id="b-body">
+      <tr>
+        <td><input type="date" name="b_date_1"></td>
+        <td><input type="number" name="b_exp_1" min="0"></td>
+        <td><input type="number" name="b_att_1" min="0"></td>
+        <td><textarea name="b_agenda_1"></textarea></td>
+        <td class="no-print"><button class="remove-btn" onclick="removeRow(this)">✕</button></td>
+      </tr>
+      <tr>
+        <td><input type="date" name="b_date_2"></td>
+        <td><input type="number" name="b_exp_2" min="0"></td>
+        <td><input type="number" name="b_att_2" min="0"></td>
+        <td><textarea name="b_agenda_2"></textarea></td>
+        <td class="no-print"><button class="remove-btn" onclick="removeRow(this)">✕</button></td>
+      </tr>
+    </tbody>
+  </table>
+  <button class="add-btn no-print" onclick="addRow('b-body', bRowTemplate)">+ Add Meeting Row</button>
+
+  <!-- ════════════════════════════════════════ C | DONATION DETAILS ════════════════════════════════════════ -->
+  <div class="section-heading sec-c">C | DONATION DETAILS</div>
+
+  <!-- C1 OTS DETAILS -->
+  <div class="sub-heading">1. OTS DETAILS</div>
+  <table>
+    <thead>
+      <tr>
+        <th class="orange-th" style="width:30%">OTS PRP</th>
+        <th class="orange-th" style="width:30%">OTS Target</th>
+        <th class="orange-th" style="width:25%">% Achieved</th>
+        <th class="orange-th" style="width:15%"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><input type="text" name="c1_ots_prp"></td>
+        <td><input type="text" name="c1_ots_target"></td>
+        <td><input type="text" name="c1_ots_pct" placeholder="e.g. 75%"></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- C2 OTS COLLECTION -->
+  <div class="sub-heading">2. OTS COLLECTION</div>
+  <table>
+    <thead>
+      <tr>
+        <th class="orange-th" style="width:22%">OTS Particulars</th>
+        <th class="orange-th" style="width:15%">During the Month</th>
+        <th class="orange-th" style="width:18%">Till Date (Apr 2026 onwards)</th>
+        <th class="orange-th" style="width:22%">OTS Particulars</th>
+        <th class="orange-th" style="width:15%">During the Month</th>
+        <th class="orange-th" style="width:18%">Till Date (Apr 2026 onwards)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="label-cell">Total No. of OTS</td>
+        <td><input type="number" name="c2_ots_no_month" min="0"></td>
+        <td><input type="number" name="c2_ots_no_till" min="0"></td>
+        <td class="label-cell">OTS Amount Received (₹)</td>
+        <td><input type="number" name="c2_ots_amt_month" min="0"></td>
+        <td><input type="number" name="c2_ots_amt_till" min="0"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- C3 DONOR DETAIL -->
+  <div class="sub-heading">3. DONOR DETAIL</div>
+  <table>
+    <thead>
+      <tr>
+        <th class="orange-th" style="width:28%">Donor Detail</th>
+        <th class="orange-th">Non-CSR</th>
+        <th class="orange-th">CSR</th>
+        <th class="orange-th">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="label-cell">Number of Donors</td>
+        <td><input type="number" name="c3_noncsr" min="0"></td>
+        <td><input type="number" name="c3_csr" min="0"></td>
+        <td><input type="number" name="c3_total" min="0"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ════════════════════════════════════════ D | CSR DETAILS ════════════════════════════════════════ -->
+  <div class="section-heading sec-d">D | CSR DETAILS</div>
+  <table>
+    <thead>
+      <tr>
+        <th class="maroon-th" style="width:22%">Accounting Detail</th>
+        <th class="maroon-th" style="width:14%">This Month (₹)</th>
+        <th class="maroon-th" style="width:14%">Till Date (₹)</th>
+        <th class="maroon-th" style="width:22%">CSR Details</th>
+        <th class="maroon-th" style="width:14%">During the Month</th>
+        <th class="maroon-th" style="width:14%">Till Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="label-cell" rowspan="2">CSR Fund Received</td>
+        <td rowspan="2"><input type="number" name="d_csr_fund_month" min="0"></td>
+        <td rowspan="2"><input type="number" name="d_csr_fund_till" min="0"></td>
+        <td class="label-cell">No. of CSR Schools</td>
+        <td><input type="number" name="d_csr_schools_month" min="0"></td>
+        <td><input type="number" name="d_csr_schools_till" min="0"></td>
+      </tr>
+      <tr>
+        <td class="label-cell">CSR Donors</td>
+        <td><input type="number" name="d_csr_donors_month" min="0"></td>
+        <td><input type="number" name="d_csr_donors_till" min="0"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ════════════════════════════════════════ E | SEVA PATRA ════════════════════════════════════════ -->
+  <div class="section-heading sec-e">E | SEVA PATRA (COLLECTION BOXES)</div>
+  <table>
+    <thead>
+      <tr>
+        <th class="brown-th" style="width:40%">Particulars</th>
+        <th class="brown-th">During the Month</th>
+        <th class="brown-th">Till Date (Apr 2026 onwards)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="label-cell">Number of Collection Boxes Placed</td>
+        <td><input type="number" name="e_boxes_month" min="0"></td>
+        <td><input type="number" name="e_boxes_till" min="0"></td>
+      </tr>
+      <tr>
+        <td class="label-cell">Amount Collected (₹)</td>
+        <td><input type="number" name="e_amt_month" min="0"></td>
+        <td><input type="number" name="e_amt_till" min="0"></td>
+      </tr>
+    </tbody>
+  </table>
+  <br>
+  <table>
+    <thead>
+      <tr>
+        <th class="brown-th" style="width:40%">Particulars</th>
+        <th class="brown-th">During the Month</th>
+        <th class="brown-th">Till Date (Apr 2026 onwards)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="label-cell">General Donation (Rs.)</td>
+        <td><input type="number" name="e_gen_month" min="0"></td>
+        <td><input type="number" name="e_gen_till" min="0"></td>
+      </tr>
+      <tr>
+        <td class="label-cell">One Child Education (Rs.)</td>
+        <td><input type="number" name="e_oce_month" min="0"></td>
+        <td><input type="number" name="e_oce_till" min="0"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ════════════════════════════════════════ F | INVESTMENT ════════════════════════════════════════ -->
+  <div class="section-heading sec-f">F | INVESTMENT (AS ON DATE)</div>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:60%">Particulars</th>
+        <th>Amount Invested (₹)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="label-cell">Fixed Deposit (FD)</td>
+        <td><input type="number" name="f_fd" min="0"></td>
+      </tr>
+      <tr>
+        <td class="label-cell">Recurring Investment</td>
+        <td><input type="number" name="f_ri" min="0"></td>
+      </tr>
+      <tr>
+        <td class="label-cell">Others (Please Specify)</td>
+        <td><input type="text" name="f_others" placeholder="Specify & Amount"></td>
+      </tr>
+      <tr>
+        <td class="total-cell">TOTAL</td>
+        <td class="total-cell"><input type="number" name="f_total" min="0"></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="bank-balance-row">
+    <span>Bank Balance in Account as on Date (₹):</span>
+    <input type="number" name="f_bank_balance" min="0" placeholder="₹">
+  </div>
+
+  <!-- ════════════════════════════════════════ G | VAN YATRA ════════════════════════════════════════ -->
+  <div class="section-heading sec-g">G | VAN YATRA</div>
+  <table>
+    <thead>
+      <tr>
+        <th class="green-th" style="width:35%">Particulars</th>
+        <th class="green-th">Number of Van Yatras</th>
+        <th class="green-th">Date(s)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="label-cell">This Month</td>
+        <td><input type="number" name="g_month_no" min="0"></td>
+        <td><input type="text" name="g_month_dates" placeholder="e.g. 5th, 12th, 20th"></td>
+      </tr>
+      <tr>
+        <td class="label-cell">Till Date (Apr 2026 onwards)</td>
+        <td><input type="number" name="g_till_no" min="0"></td>
+        <td><input type="text" name="g_till_dates" placeholder="Cumulative dates"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ════════════════════════════════════════ EVENTS ════════════════════════════════════════ -->
+  <div class="section-heading sec-events">EVENTS DURING THE MONTH</div>
+  <p class="section-note" style="padding:4px 0 6px;">Maximum 2 photographs of each activity are to be submitted separately and clearly identified by event name / date.</p>
+
+  <div id="events-container">
+    <!-- Event rows injected by JS -->
+  </div>
+  <button class="add-btn no-print" onclick="addEvent()">+ Add Event</button>
+
+  <!-- ════════════════════════════════════════ ANNEXURE 1 ════════════════════════════════════════ -->
+  <div class="section-heading sec-ann1">ANNEXURE 1 – DISBURSEMENT TO ANCHAL</div>
+  <table id="ann1-table">
+    <thead>
+      <tr>
+        <th class="blue-th">Funding Anchal Name</th>
+        <th class="blue-th">No. of Acharyas Paid During this Month</th>
+        <th class="blue-th">Up to Which Month Paid</th>
+        <th class="blue-th">Report When Received</th>
+        <th class="blue-th">Remittance Date</th>
+        <th class="blue-th">Total Remittance till Last Date</th>
+        <th class="blue-th">Remittance This Month</th>
+        <th class="blue-th no-print" style="width:5%"></th>
+      </tr>
+    </thead>
+    <tbody id="ann1-body">
+      <tr>
+        <td><input type="text" name="a1_anchal_1"></td>
+        <td><input type="number" name="a1_acharyas_1" min="0"></td>
+        <td><input type="text" name="a1_upto_1" placeholder="Month/Year"></td>
+        <td><input type="text" name="a1_report_1"></td>
+        <td><input type="date" name="a1_rem_date_1"></td>
+        <td><input type="number" name="a1_rem_till_1" min="0"></td>
+        <td><input type="number" name="a1_rem_month_1" min="0"></td>
+        <td class="no-print"><button class="remove-btn" onclick="removeRow(this)">✕</button></td>
+      </tr>
+    </tbody>
+  </table>
+  <button class="add-btn no-print" onclick="addRow('ann1-body', ann1RowTemplate)">+ Add Anchal Row</button>
+
+  <!-- Annexure 1 inner sub-table: As per PRP -->
+  <div class="sub-heading" style="color: var(--blue-header); margin-top:12px;">As per PRP</div>
+  <table id="ann1-prp-table">
+    <thead>
+      <tr>
+        <th class="blue-th">Anchal Name</th>
+        <th class="blue-th">No. of Acharyas</th>
+        <th class="blue-th">Amount (Rs.)</th>
+        <th class="blue-th no-print" style="width:6%"></th>
+      </tr>
+    </thead>
+    <tbody id="ann1-prp-body">
+      <tr>
+        <td><input type="text" name="a1p_name_1"></td>
+        <td><input type="number" name="a1p_acharyas_1" min="0"></td>
+        <td><input type="number" name="a1p_amt_1" min="0"></td>
+        <td class="no-print"><button class="remove-btn" onclick="removeRow(this)">✕</button></td>
+      </tr>
+    </tbody>
+  </table>
+  <button class="add-btn no-print" onclick="addRow('ann1-prp-body', ann1PrpRowTemplate)">+ Add PRP Row</button>
+
+  <!-- ════════════════════════════════════════ ANNEXURE 2 ════════════════════════════════════════ -->
+  <div class="section-heading sec-ann2">ANNEXURE 2 – MONTHLY SUMMARY / CHECK POINTS</div>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:45%">Particulars</th>
+        <th style="width:12%">Yes / No</th>
+        <th>Reason / Remarks (if No)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="label-cell">Samagri reached to all schools</td>
+        <td>
+          <select name="a2_samagri_yn">
+            <option value="">--</option>
+            <option>Yes</option>
+            <option>No</option>
+          </select>
+        </td>
+        <td><input type="text" name="a2_samagri_remarks"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- DONOR BOARD DETAILS -->
+  <div class="sub-heading sub-heading-maroon" style="margin-top:12px;">DONOR BOARD DETAILS</div>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:34%">Particulars</th>
+        <th style="width:13%">Total Donor Boards</th>
+        <th style="width:12%">Already Sent</th>
+        <th style="width:12%">Pending</th>
+        <th>Reason / Remarks (if No)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="label-cell">Donor Board reached to all schools</td>
+        <td><input type="number" name="a2_db_total" min="0"></td>
+        <td><input type="number" name="a2_db_sent" min="0"></td>
+        <td><input type="number" name="a2_db_pending" min="0"></td>
+        <td><input type="text" name="a2_db_remarks"></td>
+      </tr>
+      <tr>
+        <td class="label-cell">CSR Donor Board reached to all schools</td>
+        <td><input type="number" name="a2_csr_db_total" min="0"></td>
+        <td><input type="number" name="a2_csr_db_sent" min="0"></td>
+        <td><input type="number" name="a2_csr_db_pending" min="0"></td>
+        <td><input type="text" name="a2_csr_db_remarks"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- School Progress Report -->
+  <table style="margin-top:8px;">
+    <thead>
+      <tr>
+        <th style="width:50%">Particulars</th>
+        <th style="width:15%">Yes / No</th>
+        <th>Date (if Yes)</th>
+        <th>Remarks</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="label-cell">School Progress Report sent to CSR Donors</td>
+        <td>
+          <select name="a2_spr_yn">
+            <option value="">--</option>
+            <option>Yes</option>
+            <option>No</option>
+          </select>
+        </td>
+        <td><input type="date" name="a2_spr_date"></td>
+        <td><input type="text" name="a2_spr_remarks"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- DETAILS OF SUB CHAPTER -->
+  <div class="sub-heading sub-heading-maroon" style="margin-top:12px;">DETAILS OF SUB CHAPTER</div>
+  <table id="sub-chapter-table">
+    <thead>
+      <tr>
+        <th>Name of Sub Chapter</th>
+        <th>No. of Members</th>
+        <th>OTS Collected</th>
+        <th class="no-print" style="width:6%"></th>
+      </tr>
+    </thead>
+    <tbody id="sub-chapter-body">
+      <tr>
+        <td><input type="text" name="sc_name_1"></td>
+        <td><input type="number" name="sc_members_1" min="0"></td>
+        <td><input type="number" name="sc_ots_1" min="0"></td>
+        <td class="no-print"><button class="remove-btn" onclick="removeRow(this)">✕</button></td>
+      </tr>
+    </tbody>
+  </table>
+  <button class="add-btn no-print" onclick="addRow('sub-chapter-body', subChapterRowTemplate)">+ Add Sub Chapter</button>
+
+  <!-- Monitoring Anchal Name -->
+  <div class="monitoring-row">
+    <span>Monitoring Anchal Name:</span>
+    <input type="text" name="monitoring_anchal" placeholder="Anchal Name">
+  </div>
+
+  <!-- ACTION BUTTONS -->
+  <div style="text-align:center; margin-top:28px;" class="no-print">
+    <button class="submit-btn" onclick="submitForm()">Submit CPR</button>
+    <button class="print-btn" onclick="window.print()">🖨 Print / Save as PDF</button>
+  </div>
+
+</div><!-- /form-page -->
+
+<script>
+// ── ROW COUNTER ──
+let rowCounters = { b: 3, ann1: 2, ann1prp: 2, sc: 2, event: 1 };
+
+// ── REMOVE ROW ──
+function removeRow(btn) {
+  const tr = btn.closest('tr');
+  const tbody = tr.parentElement;
+  if (tbody.rows.length > 1) tr.remove();
+}
+
+// ── GENERIC ADD ROW ──
+function addRow(tbodyId, templateFn) {
+  const tbody = document.getElementById(tbodyId);
+  const idx = ++rowCounters[tbodyId.replace('-body','').replace('-','')];
+  const tr = document.createElement('tr');
+  tr.innerHTML = templateFn(idx);
+  tbody.appendChild(tr);
+}
+
+// ── SECTION B ──
+function bRowTemplate(i) {
+  return `<td><input type="date" name="b_date_${i}"></td>
+          <td><input type="number" name="b_exp_${i}" min="0"></td>
+          <td><input type="number" name="b_att_${i}" min="0"></td>
+          <td><textarea name="b_agenda_${i}"></textarea></td>
+          <td class="no-print"><button class="remove-btn" onclick="removeRow(this)">✕</button></td>`;
+}
+
+// ── ANNEXURE 1 ──
+function ann1RowTemplate(i) {
+  return `<td><input type="text" name="a1_anchal_${i}"></td>
+          <td><input type="number" name="a1_acharyas_${i}" min="0"></td>
+          <td><input type="text" name="a1_upto_${i}" placeholder="Month/Year"></td>
+          <td><input type="text" name="a1_report_${i}"></td>
+          <td><input type="date" name="a1_rem_date_${i}"></td>
+          <td><input type="number" name="a1_rem_till_${i}" min="0"></td>
+          <td><input type="number" name="a1_rem_month_${i}" min="0"></td>
+          <td class="no-print"><button class="remove-btn" onclick="removeRow(this)">✕</button></td>`;
+}
+function ann1PrpRowTemplate(i) {
+  return `<td><input type="text" name="a1p_name_${i}"></td>
+          <td><input type="number" name="a1p_acharyas_${i}" min="0"></td>
+          <td><input type="number" name="a1p_amt_${i}" min="0"></td>
+          <td class="no-print"><button class="remove-btn" onclick="removeRow(this)">✕</button></td>`;
+}
+
+// ── SUB CHAPTER ──
+function subChapterRowTemplate(i) {
+  return `<td><input type="text" name="sc_name_${i}"></td>
+          <td><input type="number" name="sc_members_${i}" min="0"></td>
+          <td><input type="number" name="sc_ots_${i}" min="0"></td>
+          <td class="no-print"><button class="remove-btn" onclick="removeRow(this)">✕</button></td>`;
+}
+
+// ── EVENTS ──
+function addEvent() {
+  const i = ++rowCounters.event;
+  const container = document.getElementById('events-container');
+  const div = document.createElement('div');
+  div.style.cssText = 'border:1px solid #ccc; padding:10px; margin-bottom:12px; background:#fafafa; position:relative;';
+  div.innerHTML = `
+    <div style="font-weight:700; font-size:12px; color:var(--navy); margin-bottom:6px;">Event #${i}
+      <button class="remove-btn no-print" onclick="this.closest('div[data-event]').remove()" style="position:absolute;right:8px;top:8px;">✕ Remove Event</button>
+    </div>
+    <table>
+      <tbody>
+        <tr>
+          <td class="label-cell" style="width:20%">Event Date</td>
+          <td style="width:30%"><input type="date" name="ev_date_${i}"></td>
+          <td class="label-cell" style="width:20%">Conducted By</td>
+          <td><select name="ev_by_${i}">
+            <option value="">-- Select --</option>
+            <option>Chapter</option>
+            <option>Mahila</option>
+            <option>Yuva</option>
+            <option>Joint</option>
+          </select></td>
+        </tr>
+        <tr>
+          <td class="label-cell">Event Name</td>
+          <td><input type="text" name="ev_name_${i}"></td>
+          <td class="label-cell">Venue / Location</td>
+          <td><input type="text" name="ev_venue_${i}"></td>
+        </tr>
+        <tr>
+          <td class="label-cell">No. of Participants</td>
+          <td><input type="number" name="ev_participants_${i}" min="0"></td>
+          <td class="label-cell">Brief Description</td>
+          <td><textarea name="ev_desc_${i}"></textarea></td>
+        </tr>
+        <tr>
+          <td class="label-cell">Impact / Outcome</td>
+          <td colspan="3"><textarea name="ev_impact_${i}"></textarea></td>
+        </tr>
+        <tr>
+          <td class="label-cell">Photos (max 2)</td>
+          <td colspan="3">
+            <div class="photo-upload-area">
+              <div class="photo-slot">Photo 1<br><input type="file" name="ev_photo1_${i}" accept="image/*"></div>
+              <div class="photo-slot">Photo 2<br><input type="file" name="ev_photo2_${i}" accept="image/*"></div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>`;
+  div.setAttribute('data-event', i);
+  // fix button remove
+  div.querySelector('.remove-btn').onclick = function() { div.remove(); };
+  container.appendChild(div);
+}
+
+// ── INIT: add first event on load ──
+window.onload = function() {
+  rowCounters.event = 0;
+  addEvent();
+};
+
+// ── SUBMIT ──
+function submitForm() {
+  const chapter = document.getElementById('chapterName').value;
+  if (!chapter) { alert('Please select a Chapter Name before submitting.'); return; }
+  alert('CPR form submitted successfully!\n\nChapter: ' + chapter + '\n\n(This prototype confirms the form structure. Backend integration to follow.)');
+}
+</script>
+</body>
+</html>
