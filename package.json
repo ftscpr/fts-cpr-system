@@ -1,0 +1,7 @@
+{
+  "name": "fts-cpr",
+  "version": "1.0.0",
+  "private": true,
+  "description": "FTS Chapter Performance Report (PWA). Static files in /public, API proxy in /api.",
+  "engines": { "node": ">=18" }
+}
